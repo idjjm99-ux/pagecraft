@@ -1,0 +1,8 @@
+build/
+tests/out_*/
+__pycache__/
+*.pyc
+node_modules/
+# 시험이 만드는 그림·PPT는 릴리스 Source zip에만 (git에는 안 넣음)
+tests/*.png
+tests/*.pptx

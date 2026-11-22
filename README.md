@@ -1,0 +1,30 @@
+# PageCraft (페이지공방)
+
+문서·발표 편집기. 결과물은 HTML 한 파일(`PageCraft_v<버전>_Lite.html`, 약 4MB, 오프라인 동작).
+
+**최신: v12.48.0** (회전·발표자 보기) — `releases/v12.48.0/`
+
+## 폴더
+| 경로 | 내용 |
+|---|---|
+| `releases/v*/` | 배포본 zip. Lite = 완성본 HTML, Source = 이 저장소의 패치·시험 |
+| `patch/patch_vXXXXX.py` | 버전마다 하나. 직전 판 HTML → 문자열 교체 → 다음 판 |
+| `tests/` | 시험. `run.sh` = 회귀 전부, `t_vXX.js/py` = 버전별, `keytest·keyseq·cssdump` = 옛/새 판 비교 |
+| `tools/` | `unpack.sh`(기준본 풀기) · `new_patch.py`(새 패치·시험 뼈대) · `pack.sh`(릴리스 zip) |
+| `docs/CHANGELOG.md` | v12.22 이후 판마다 바뀐 내용 |
+
+## 빠른 사용
+```bash
+pip install playwright                      # 브라우저 설치는 불필요 (tests/pcenv.py가 크롬을 찾음)
+bash tools/unpack.sh                         # → build/PageCraft_v12.48.0_Lite.html
+python3 -I tools/new_patch.py build/PageCraft_v12.48.0_Lite.html 12.49.0 "요약"
+python3 -I patch/patch_v12490.py build/PageCraft_v12.48.0_Lite.html build/PageCraft_v12.49.0_Lite.html
+bash tests/run.sh build/PageCraft_v12.49.0_Lite.html     # 회귀 전부 (약 10분)
+bash tools/pack.sh 12.49.0                   # releases/v12.49.0/ zip 2개
+```
+
+## 판 계보 (브랜치)
+v12.45.0 `main` → v12.46.0 `claude/keen-shannon-uczmhn` → v12.47.0 `ccr-d0973cf5-o0uei2` → v12.48.0 `ccr-989f8055-6s2ujq`
+
+- 다른 갈래: `claude/zealous-mendel-3moh1n`의 v12.46.0(서명·1024 잘림). 서명 수정은 본류에도 있고,
+  **상세 설정 잘림 수정(1024 폭 3건, 1280·1350 탭 1건)은 본류에 없음** → v12.49.0에서 반영 예정
