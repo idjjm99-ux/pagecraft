@@ -13,4 +13,4 @@ zip -q -X -r "$D/PageCraft_v${V}_Source.zip" README.md CLAUDE.md docs patch test
   -x '*/__pycache__/*' '*.pyc' 'tests/out_*' 'tests/out_*/*' '*/node_modules/*' 'tests/*.png' 'tests/*.pptx'
 ls -la "$D"
 # 점검: Source 안 큰 파일(100KB 넘음)이 있으면 알림
-unzip -Z1 "$D/PageCraft_v${V}_Source.zip" >/dev/null && unzip -l "$D/PageCraft_v${V}_Source.zip" | awk '$1>102400{print "  큰 파일 확인:",$1,$4; n++} END{if(!n)print "  Source: 100KB 넘는 파일 없음"}'
+unzip -Z1 "$D/PageCraft_v${V}_Source.zip" >/dev/null && unzip -l "$D/PageCraft_v${V}_Source.zip" | awk '$1 ~ /^[0-9]+$/ && $4!="" && $1>102400{print "  큰 파일 확인:",$1,$4; n++} END{if(!n)print "  Source: 100KB 넘는 파일 없음"}'
