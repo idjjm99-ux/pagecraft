@@ -64,3 +64,11 @@
     새 창 키: → ← ↑ ↓·Space·PageUp/Down·1~9·0, Esc = 발표 끝. 발표 끝내면 새 창도 닫힘. 영상·소리는 새 창에서 재생 안 함(대표 그림)
     팝업이 막히면 발표 화면 아래 메모 칸(✕로 닫기)
   · 시험: node tests/t_v48.js <html> (89개) · 회귀 run.sh · t_v46/t_v47.js · keytest/keyseq·cssdump v12.47↔v12.48 비교 → tests/result_v12.48.0.txt
+- v12.49.0: python3 -I patch/patch_v12490.py PageCraft_v12.48.0_Lite.html PageCraft_v12.49.0_Lite.html (좁은 화면 잘림. 기준 v12.48.0 = 브랜치 claude/sleepy-gates-8juflm 판)
+  · 곁가지 claude/zealous-mendel-3moh1n v12.46.0의 잘림 수정을 본류로 옮김 + 새로 찾은 겹침 목록 1건. CSS만(pc-ui-css 안 기존 구역 직접 수정), 저장 데이터·동작 변화 없음
+  · 머리줄: 1101~1240px에서 저장 상태 글씨가 길면 [▶ 발표]가 화면 밖(최대 76px) → ≤1240에서 상태 글씨·부제 숨김
+  · 페이지 설정 [페이지에 적용]·[문서 전체 적용]: ≤1100px 칸 밖 29px → 글꼴 고르기 아래 줄, 오른쪽 맞춤
+  · 설정 탭 작은 글씨: ≤1350px 탭 좌우 여백 0·10px, ≤1100px 9px(1024에서 '배경·글꼴·전환' 잘림)
+  · 겹침·순서 목록: 이름이 모든 폭에서 2~3글자('1년 …'), ≤1350px에선 0글자 → 첫 줄 이름(칸 폭 전부) + 둘째 줄 [종류][겹침 n]. ≤1100px 단추·표 여백 줄임
+  · 곁가지의 ≤1100 머리줄 단추 여백 12→8px은 v12.46 [저장 ▾] 메뉴로 필요 없어 빼냄
+  · 시험: node tests/t_v49.js <html> (88개, 9개 폭 1024~1920) · 회귀 run.sh · keytest/keyseq·cssdump v12.48↔v12.49 비교 → tests/result_v12.49.0.txt
