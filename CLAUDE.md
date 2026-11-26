@@ -2,6 +2,13 @@
 
 단일 HTML 앱(문서·발표 편집기). 구조·사용법은 README.md.
 
+## 새 대화 시작 시 (먼저 할 것)
+- 최신판 = `releases/` 안 가장 높은 버전 폴더(`ls releases | sort -V | tail -1`). README의 "최신" 줄과 맞는지 확인
+- `bash tools/unpack.sh` → `build/PageCraft_v<최신>_Lite.html` 을 기준본으로 작업
+- `main` = 항상 최신 릴리스. 새 판은 작업 브랜치에서 만들고, 사용자 허락을 받은 뒤 `main`에 합침
+- 판마다 태그 `v<버전>` (예: `v12.50.0`). 이전 판은 `releases/v*/` 와 태그에 그대로 남음 → 되돌릴 때 사용
+- 되돌리기: 기록 강제 덮어쓰기(force push) 금지. `git revert`로 되돌림 커밋을 남김
+
 ## 작업 흐름
 `/new-patch <버전> "<요약>"` → 패치·시험 작성 → 빌드 → `/release <버전>`
 
