@@ -14,6 +14,7 @@
 - 단축키: `PC_KEYS` / 표 `PC_KEYMAP` 한 곳에서
 - 시험: 새 판은 `tests/t_vXX.js`(node Playwright). 버전 검사는 `pcVer`(파일 이름 기준)로 — 판 올려도 안 깨지게
 - 파이썬은 `python3 -I`로 실행(시험 파일은 `pcenv.py`로 자기 폴더·크롬 경로를 잡음)
+- 화면 크기: 폭은 t_v49(1024~1920), 높이는 t_v50(Windows 배율 125·150% → 1093×491·1280×597 등). 낮은 화면 규칙은 `@media(max-height:660px)`
 - 결과 기록 `tests/result_v<버전>.txt`: 통과 수·비교 차이·미검증 항목. 실패는 숨기지 않음
 
 ## 환경

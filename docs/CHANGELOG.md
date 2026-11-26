@@ -72,3 +72,4 @@
   · 겹침·순서 목록: 이름이 모든 폭에서 2~3글자('1년 …'), ≤1350px에선 0글자 → 첫 줄 이름(칸 폭 전부) + 둘째 줄 [종류][겹침 n]. ≤1100px 단추·표 여백 줄임
   · 곁가지의 ≤1100 머리줄 단추 여백 12→8px은 v12.46 [저장 ▾] 메뉴로 필요 없어 빼냄
   · 시험: node tests/t_v49.js <html> (88개, 9개 폭 1024~1920) · 회귀 run.sh · keytest/keyseq·cssdump v12.48↔v12.49 비교 → tests/result_v12.49.0.txt
+- v12.50.0: python3 -I patch/patch_v12500.py PageCraft_v12.49.0_Lite.html PageCraft_v12.50.0_Lite.html (배율 화면·겹침 이름·Source 정리·!important 정리). 시험 node tests/t_v50.js
