@@ -1,12 +1,12 @@
 # v12.42: 05·06 목차 칸·16 타임라인 단계 → 테마 바탕 면
-import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import CHROME, HERE; import os
+import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import ver_ok, CHROME, HERE; import os
 import asyncio,sys
 from h import H
 R=[]
 def ok(n,c,i=None):R.append(c);print(('OK  ' if c else 'FAIL'),n,'' if i is None else str(i)[:200])
 async def main(path):
     h=H();pg=await h.start(path,1700,1100);ev=h.ev
-    ok('버전',(await ev("()=>Revival.buildVersion()")).startswith('PageCraft v12.4'))
+    ok('버전',ver_ok(await ev("()=>Revival.buildVersion()")))
     await pg.click('[data-action=addPage]');await pg.wait_for_timeout(700)
     for t in [5,6,16,4]:
         await pg.click(f'#templateGrid [data-template="{t}"]');await pg.wait_for_timeout(200)

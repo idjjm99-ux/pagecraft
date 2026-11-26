@@ -1,5 +1,5 @@
 # v12.44: 두 갈래 합침(▶ 없앰 + 레일 테마색) / 05 구분선 테마색 / 크래프톤 원 유지
-import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import CHROME, HERE; import os
+import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import ver_ok, CHROME, HERE; import os
 import asyncio,sys,json
 from h import H
 R=[]
@@ -8,7 +8,7 @@ LUM="""const L=c=>{const m=c.match(/\\d+(\\.\\d+)?/g).slice(0,3).map(Number).map
 GRAY={'rgb(151, 168, 184)','rgb(194, 202, 212)'}
 async def main(path):
     h=H();pg=await h.start(path,1700,1100);ev=h.ev
-    ok('버전',(await ev("()=>Revival.buildVersion()")).startswith('PageCraft v12.4'))
+    ok('버전',ver_ok(await ev("()=>Revival.buildVersion()")))
     ok('예시 문서에 장식 ▶ 개체 없음(18:00 판 유지)',await ev("()=>Revival.getProject().pages.flatMap(p=>p.objects).filter(o=>o.role==='template-decor'&&o.decorOriginal==='▶').length")==0)
     await pg.click('[data-action=addPage]');await pg.wait_for_timeout(700)
     for t in [5,6,22,25]:

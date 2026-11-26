@@ -1,5 +1,5 @@
 # v12.43: 06 세로 레일 목차 — 레일 선·점 테마색
-import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import CHROME, HERE; import os
+import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import ver_ok, CHROME, HERE; import os
 import asyncio,sys,json
 from h import H
 R=[]
@@ -7,7 +7,7 @@ def ok(n,c,i=None):R.append(c);print(('OK  ' if c else 'FAIL'),n,'' if i is None
 LUM="""const L=c=>{const m=c.match(/\\d+(\\.\\d+)?/g).slice(0,3).map(Number).map(x=>x/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4));return m[0]*.2126+m[1]*.7152+m[2]*.0722};const CR=(a,b)=>{const x=L(a),y=L(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};"""
 async def main(path):
     h=H();pg=await h.start(path,1700,1100);ev=h.ev
-    ok('버전',(await ev("()=>Revival.buildVersion()")).startswith('PageCraft v12.4'))
+    ok('버전',ver_ok(await ev("()=>Revival.buildVersion()")))
     await pg.click('[data-action=addPage]');await pg.wait_for_timeout(700)
     await pg.click('#templateGrid [data-template="6"]');await pg.wait_for_timeout(200)
     await pg.click('#confirmTemplate');await pg.wait_for_timeout(1200)

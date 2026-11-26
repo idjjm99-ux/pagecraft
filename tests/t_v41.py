@@ -1,5 +1,5 @@
 # v12.41 시험: 테마별 목차 칸 · 상단 띠
-import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import CHROME, HERE; import os
+import sys; sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__))); from pcenv import ver_ok, CHROME, HERE; import os
 import asyncio,sys,json,base64,zipfile,io
 from playwright.async_api import async_playwright
 HTML=sys.argv[1]
@@ -12,7 +12,7 @@ async def main():
         errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
         pg.on('dialog',lambda d:asyncio.ensure_future(d.dismiss()))
         await pg.goto('file://'+HTML);await pg.wait_for_timeout(2500);await pg.add_style_tag(content='.rv-guide{display:none!important;pointer-events:none!important}')
-        ok('버전',(await pg.evaluate("Revival.buildVersion()")).startswith('PageCraft v12.4'))
+        ok('버전',ver_ok(await pg.evaluate("Revival.buildVersion()")))
         await pg.keyboard.press('Escape');await pg.wait_for_timeout(600)
         rm="document.querySelectorAll('.rv-guide').forEach(e=>e.remove())"
         await pg.evaluate(rm);await pg.click('[data-action=addPage]');await pg.wait_for_timeout(700)
