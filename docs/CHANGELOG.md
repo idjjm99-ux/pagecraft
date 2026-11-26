@@ -72,4 +72,9 @@
   · 겹침·순서 목록: 이름이 모든 폭에서 2~3글자('1년 …'), ≤1350px에선 0글자 → 첫 줄 이름(칸 폭 전부) + 둘째 줄 [종류][겹침 n]. ≤1100px 단추·표 여백 줄임
   · 곁가지의 ≤1100 머리줄 단추 여백 12→8px은 v12.46 [저장 ▾] 메뉴로 필요 없어 빼냄
   · 시험: node tests/t_v49.js <html> (88개, 9개 폭 1024~1920) · 회귀 run.sh · keytest/keyseq·cssdump v12.48↔v12.49 비교 → tests/result_v12.49.0.txt
-- v12.50.0: python3 -I patch/patch_v12500.py PageCraft_v12.49.0_Lite.html PageCraft_v12.50.0_Lite.html (배율 화면·겹침 이름·Source 정리·!important 정리). 시험 node tests/t_v50.js
+- v12.50.0: python3 -I patch/patch_v12500.py PageCraft_v12.49.0_Lite.html PageCraft_v12.50.0_Lite.html (배율 화면·겹침 이름·CSS 우선순위 정리). 시험 node tests/t_v50.js
+  · Windows 배율 화면(1366×768@125% → 보이는 칸 약 1093×491 등): 높이 ≤660px에서 머리줄 65→50, 도구 단추 아이콘·글자 가로(도구줄 229→156px), 페이지 막대 53→38, 상태줄 한 줄(서명은 온전히), 설정 칸 머리 설명 숨김. #app 최소 높이 640→460(화면 전체 스크롤 없앰). [맞춤]·축소 하한 28/30%→15%
+  · 1101~1350px: 왼쪽 '페이지' 머리·[페이지에 적용]·[문서 전체 적용] 줄바꿈 배치(≤1100과 같게)
+  · 겹침·순서 목록 이름: 8글자 줄임 없앰 → 칸 폭만큼, 넘칠 때만 '…'
+  · v12.37 구역 !important 34개 중 28개 뺌(계산된 스타일 그대로인 것만, 남은 6개는 다른 구역 !important와 겨룸). 전체 1058→1030
+  · Source 묶음: tools/pack.sh가 시험 부산물(tests/*.png·*.pptx·out_*) 제외, 100KB 넘는 파일 알림

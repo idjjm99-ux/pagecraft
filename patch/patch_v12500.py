@@ -1,4 +1,4 @@
-"""PageCraft v12.50.0 — 배율 화면·겹침 이름·Source 정리·!important 정리
+"""PageCraft v12.50.0 — 배율 화면·겹침 이름·CSS 우선순위 정리
 기준: v12.49.0 Lite.
  1) Windows 배율 화면(1366×768@125% → 보이는 칸 약 1093×491, 1920×1080@150% → 1280×597): 높이 640 미만에서 화면 전체가 밀려 스크롤,
     ≤1100 폭에선 도구줄 3줄(229px)이라 슬라이드가 120px만 보이고 맞춤 배율 하한(28%) 때문에 아래가 잘림
@@ -6,6 +6,8 @@
       설정 칸 머리 설명 숨김, 맞춤 배율 하한 28%→15%(축소 단추 하한도 15%)
  1-b) 1101~1350 폭: 왼쪽 '페이지' 머리(제목이 세로로 '페이/지', 단추 글자 2줄)·글꼴 적용 단추(카드 밖) → ≤1100에서 쓰던 줄바꿈 배치를 ≤1350까지
  2) 겹침·순서 목록 이름: 8글자 줄임 없앰 → 칸 폭만큼 보이고 넘칠 때만 '…'(말풍선 전체 이름 그대로)
+ 5) v12.37 구역(rv-v12370) !important 34개 중 28개 뺌 — 계산된 스타일 그대로인 것만(브라우저에서 하나씩·함께 빼 보며 확인).
+    남긴 6개: 다른 구역 !important와 겨루는 것(핀 번호·카드 글씨 color/font-weight, 설정 탭 background 3곳)
 Usage: python3 -I patch/patch_v12500.py <PageCraft_v12.49.0_Lite.html> <out.html>"""
 import sys
 src, out = sys.argv[1], sys.argv[2]
@@ -75,6 +77,35 @@ C("#app .ribbon .pc-align-group>small{font-size:11.5px;font-weight:500;color:#47
 # 상태줄: 낮은 화면에서 안내 글만 말줄임, 서명(버전)은 온전히
 C("#rv-app-signature{font-size:10px;color:#8D9BA8;white-space:nowrap;margin-left:auto;align-self:center;}",
   "#rv-app-signature{font-size:10px;color:#8D9BA8;white-space:nowrap;margin-left:auto;align-self:center;flex-shrink:0}")
+# 5) v12.37 구역 !important 정리(28개 뺌, 6개 남김). 줄 단위로 바꿔 무엇이 빠졌는지 보이게
+for old, new in [
+  (".rv-stage .rv-text-content.pc-pin-num{background:none!important;color:color-mix(in srgb,var(--accent,#2A5FD7) 45%,#111827)!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important;font-weight:800!important;text-align:center!important;padding:0!important;",
+   ".rv-stage .rv-text-content.pc-pin-num{background:none;color:color-mix(in srgb,var(--accent,#2A5FD7) 45%,#111827)!important;-webkit-text-fill-color:currentColor;text-shadow:none;font-weight:800!important;text-align:center;padding:0;"),
+  (".rv-stage .rv-text-content.pc-on-card{background:none!important;color:var(--ink,#1B3046)!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important;padding:0!important}",
+   ".rv-stage .rv-text-content.pc-on-card{background:none;color:var(--ink,#1B3046)!important;-webkit-text-fill-color:currentColor;text-shadow:none;padding:0}"),
+  ("#inspectorTabs [data-inspector-tab]{font-weight:800!important;color:#1E293B!important;border:1px solid #CBD5E1!important;background:#fff!important;border-radius:10px!important}",
+   "#inspectorTabs [data-inspector-tab]{font-weight:800;color:#1E293B;border:1px solid #CBD5E1;background:#fff!important;border-radius:10px}"),
+  ("#inspectorTabs [data-inspector-tab] small{color:#475569!important;font-weight:600}",
+   "#inspectorTabs [data-inspector-tab] small{color:#475569;font-weight:600}"),
+  ('#inspectorTabs [data-inspector-tab][aria-selected="true"]{background:#1D4ED8!important;border-color:#1D4ED8!important;color:#fff!important;',
+   '#inspectorTabs [data-inspector-tab][aria-selected="true"]{background:#1D4ED8!important;border-color:#1D4ED8;color:#fff;'),
+  ('#inspectorTabs [data-inspector-tab][aria-selected="true"] small{color:#DBEAFE!important}',
+   '#inspectorTabs [data-inspector-tab][aria-selected="true"] small{color:#DBEAFE}'),
+  ('#inspectorTabs [data-inspector-tab]:not([aria-selected="true"]):hover{border-color:#1D4ED8!important;background:#EFF6FF!important}',
+   '#inspectorTabs [data-inspector-tab]:not([aria-selected="true"]):hover{border-color:#1D4ED8;background:#EFF6FF!important}'),
+  ("#inspector details.accordion>summary{--acc:#64748B;--acc-bg:#F8FAFC;font-size:13px!important;font-weight:800!important;color:#0F172A!important;",
+   "#inspector details.accordion>summary{--acc:#64748B;--acc-bg:#F8FAFC;font-size:13px;font-weight:800;color:#0F172A;"),
+  ('#inspector details[data-accordion="chart"]>summary{--acc:#7C3AED;--acc-bg:#F5F3FF;color:#4C1D95!important}', '#inspector details[data-accordion="chart"]>summary{--acc:#7C3AED;--acc-bg:#F5F3FF;color:#4C1D95}'),
+  ('#inspector details[data-accordion="table"]>summary{--acc:#0D9488;--acc-bg:#F0FDFA;color:#134E4A!important}', '#inspector details[data-accordion="table"]>summary{--acc:#0D9488;--acc-bg:#F0FDFA;color:#134E4A}'),
+  ('#inspector details[data-accordion="media"]>summary{--acc:#EA580C;--acc-bg:#FFF7ED;color:#7C2D12!important}', '#inspector details[data-accordion="media"]>summary{--acc:#EA580C;--acc-bg:#FFF7ED;color:#7C2D12}'),
+  ('#inspector details[data-accordion="flow"]>summary{--acc:#16A34A;--acc-bg:#F0FDF4;color:#14532D!important}', '#inspector details[data-accordion="flow"]>summary{--acc:#16A34A;--acc-bg:#F0FDF4;color:#14532D}'),
+  ('{--acc:#DB2777;--acc-bg:#FDF2F8;color:#831843!important}', '{--acc:#DB2777;--acc-bg:#FDF2F8;color:#831843}'),
+  ("#inspector input[type=color].pc-is-transparent{background:conic-gradient(#d4dae3 25%,#fff 0 50%,#d4dae3 0 75%,#fff 0) 0 0/10px 10px!important}",
+   "#inspector input[type=color].pc-is-transparent{background:conic-gradient(#d4dae3 25%,#fff 0 50%,#d4dae3 0 75%,#fff 0) 0 0/10px 10px}"),
+  ('.rv-object.rv-text[data-role="template-decor"] .rv-text-content{line-height:.85!important}', '.rv-object.rv-text[data-role="template-decor"] .rv-text-content{line-height:.85}'),
+]:
+    C(old, new)
+z0 = css.find('원래 블록: rv-v12370'); z1 = css.find('원래 블록: rv-v12380'); assert css[z0:z1].count('!important') == 6, css[z0:z1].count('!important')
 html = html[:a] + css + html[b:]
 # 1) 맞춤 배율 하한 28%→15%, 축소 단추 하한 30%→15%
 R("const w=Math.max(300,viewport.clientWidth-54),h=Math.max(220,viewport.clientHeight-55);st.zoom=Math.max(.28,Math.min(1.25,w/M.W,h/M.H));",
@@ -84,6 +115,6 @@ R("st.zoom=M.clamp(Math.round((st.zoom+delta)*100)/100,.3,2.5);", "st.zoom=M.cla
 R("label=[...fullLabel].length>8?[...fullLabel].slice(0,8).join('')+'…':fullLabel,", "label=fullLabel,")
 
 # ── 버전 문자열(BUILD_VERSION·하단 서명. <title>은 v12.46부터 문서 제목이라 안 건드림) ──
-R("const BUILD_VERSION='PageCraft v12.49.0 · 좁은 화면 잘림(설정 칸·겹침 목록)';", "const BUILD_VERSION='PageCraft v12.50.0 · 배율 화면·겹침 이름·Source 정리·!important 정리';")
+R("const BUILD_VERSION='PageCraft v12.49.0 · 좁은 화면 잘림(설정 칸·겹침 목록)';", "const BUILD_VERSION='PageCraft v12.50.0 · 배율 화면·겹침 이름·CSS 우선순위 정리';")
 R('Jungmin Jo · PageCraft v12.49.0</span>', 'Jungmin Jo · PageCraft v12.50.0</span>')
 open(out, 'w', encoding='utf-8').write(html); print('patched', out, len(html))

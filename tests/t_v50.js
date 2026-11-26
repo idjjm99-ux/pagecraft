@@ -1,5 +1,5 @@
 // v12.50.0 시험(노드 Playwright): node tests/t_v50.js <PageCraft_v12.50.0_Lite.html>
-// 배율 화면·겹침 이름·Source 정리·!important 정리
+// 배율 화면·겹침 이름·CSS 우선순위 정리
 const { chromium } = require('playwright'); const path = require('path');
 let pass = 0, fail = 0;
 const ok = (c, m, x = '') => { c ? pass++ : fail++; console.log((c ? 'PASS ' : 'FAIL ') + m + ' ' + (x || '')); };

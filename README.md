@@ -2,7 +2,7 @@
 
 문서·발표 편집기. 결과물은 HTML 한 파일(`PageCraft_v<버전>_Lite.html`, 약 4MB, 오프라인 동작).
 
-**최신: v12.50.0** (Windows 배율 화면·겹침 이름·!important 정리) — `releases/v12.50.0/`
+**최신: v12.50.0** (Windows 배율 화면·겹침 이름·CSS 우선순위 정리) — `releases/v12.50.0/`
 
 ## 폴더
 | 경로 | 내용 |
