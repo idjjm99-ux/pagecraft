@@ -79,3 +79,7 @@
   · v12.37 구역 !important 34개 중 28개 뺌(계산된 스타일 그대로인 것만, 남은 6개는 다른 구역 !important와 겨룸). 전체 1058→1030
   · Source 묶음: tools/pack.sh가 시험 부산물(tests/*.png·*.pptx·out_*) 제외, 100KB 넘는 파일 알림
 - v12.51.0: python3 -I patch/patch_v12510.py PageCraft_v12.50.0_Lite.html PageCraft_v12.51.0_Lite.html (CSS 우선순위 정리 2). 시험 node tests/t_v51.js
+  · !important 2차 정리(보이는 동작 그대로): @media 없는 구역 4묶음(rv-lock-state-visual-v12171 · rv-v12176~12179 · rv-v12260-themes · rv-v12330~12340) 원문 206개 중 62개 뺌. 전체 1030→968
+  · 판정: tools/imp_check.js를 1500x950·1024x600 두 화면에서 돌려 둘 다 FREE인 것만. 원문 선언이 여러 세부 속성으로 펼쳐지면 모두 FREE일 때만. :hover 등 상태 선택자·테마 지정 선택자는 남김
+  · tools/imp_check.js: 화면 크기 인자(5번째), 상태 선택자 UNMATCHED 처리, 낮은 화면에서 탭 hover 가려짐 건너뜀
+  · 시험 t_v48 '계속 → 다시 흐름': 1.2초 고정 대기 → 조건 대기(0.5초 간격 갱신이라 v12.50에서도 2/3 실패하던 타이밍 문제)
