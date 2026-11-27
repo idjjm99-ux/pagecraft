@@ -78,3 +78,4 @@
   · 겹침·순서 목록 이름: 8글자 줄임 없앰 → 칸 폭만큼, 넘칠 때만 '…'
   · v12.37 구역 !important 34개 중 28개 뺌(계산된 스타일 그대로인 것만, 남은 6개는 다른 구역 !important와 겨룸). 전체 1058→1030
   · Source 묶음: tools/pack.sh가 시험 부산물(tests/*.png·*.pptx·out_*) 제외, 100KB 넘는 파일 알림
+- v12.51.0: python3 -I patch/patch_v12510.py PageCraft_v12.50.0_Lite.html PageCraft_v12.51.0_Lite.html (CSS 우선순위 정리 2). 시험 node tests/t_v51.js

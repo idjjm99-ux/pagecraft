@@ -1,10 +1,12 @@
 // !important 정리 도우미: pc-ui-css 한 구역의 !important 선언을 하나씩·함께 빼 보며 계산된 스타일이 그대로인지 검사
-// 사용: node tools/imp_check.js <Lite.html> "<구역 첫 규칙 선택자(CSSOM 표기)>" "<마지막 규칙 선택자>" <out.json>   (약 20~30분)
+// 사용: node tools/imp_check.js <Lite.html> "<구역 첫 규칙 선택자(CSSOM 표기)>" "<마지막 규칙 선택자>" <out.json> [WxH, 기본 1500x950]   (약 20~30분)
+// 화면 크기 두 가지(1500x950·1024x600) 모두에서 FREE인 것만 뺄 것. 상태 선택자(:hover 등)는 UNMATCHED로 남김
 // 결과: FREE/FREE2 = 빼도 됨, NEED = 남김(다른 구역 !important와 겨룸), UNMATCHED = 시험 상태에서 안 쓰여 판정 못 함(빼지 말 것)
 // v12.50에서 rv-v12370 구역에 사용. 판정 뒤 cssdump quick으로 옛/새 판 전체 비교 필수
 // 2단계: 구역 안 !important 선언(원문 단위)을 함께 빼 보고, 남은 것도 다시 시험, 마지막에 전체 검증
 const { chromium } = require('playwright'); const path=require('path'); const fs=require('fs');
 const file=path.resolve(process.argv[2]); const FIRST=process.argv[3], LAST=process.argv[4], OUT=process.argv[5];
+const VP=(process.argv[6]||'1500x950').split('x').map(Number); // 화면 크기(v12.51: 1024x600 등 좁은·낮은 화면도 검사)
 const SETUP=`(([FIRST,LAST])=>{
   const sh=[...document.styleSheets].find(s=>s.ownerNode&&s.ownerNode.id==='pc-ui-css');
   const all=[]; const walk=(list)=>{for(const r of list){ if(r.cssRules&&!r.selectorText) walk(r.cssRules); else all.push(r);} }; walk(sh.cssRules);
@@ -22,7 +24,7 @@ const SNAP=`((sels)=>{ const h=s=>{let x=2166136261;for(let i=0;i<s.length;i++){
   const out=[]; for(const e of set){ out.push(h(ser(getComputedStyle(e))+ser(getComputedStyle(e,'::before'))+ser(getComputedStyle(e,'::after')))); } return {n:set.size,s:out.join(',')}; })`;
 const SET=`(([ks,imp])=>{for(const k of ks){const d=__imp.decls[k];for(const [p,v] of d.lh)__imp.rules[d.ri].style.setProperty(p,v,imp?'important':'');}})`;
 (async()=>{
-  const b=await chromium.launch(); const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();
+  const b=await chromium.launch(); const p=await (await b.newContext({viewport:{width:VP[0],height:VP[1]}})).newPage();
   p.on('dialog',d=>d.dismiss());
   await p.goto('file://'+file); await p.waitForTimeout(1500);
   await p.locator('#presentation button',{hasText:'편집'}).first().click(); await p.waitForTimeout(1200);
@@ -51,6 +53,8 @@ const SET=`(([ks,imp])=>{for(const k of ks){const d=__imp.decls[k];for(const [p,
       if(indivNeed[k]) continue; await p.evaluate(SET+'('+JSON.stringify([[k],false])+')'); const a=await p.evaluate(SNAP+'('+JSON.stringify([decls[k].sel])+')'); await p.evaluate(SET+'('+JSON.stringify([[k],true])+')'); if(a.s!==r.s) indivNeed[k]=true; }
     snaps.push(base); }
   // 2차: 개별로 빠지는 것 모두 뺀 상태에서, 남은 것 하나씩 다시
+  // v12.51: :hover·:focus·:active 등 상태 선택자는 상태를 다 재현하지 못하므로 판정하지 않음(남김)
+  decls.forEach((d,k)=>{ if(/:(hover|focus|focus-visible|focus-within|active|checked)\b/.test(d.sel)) matched[k]=false; });
   let free=allIdx.filter(k=>matched[k]&&!indivNeed[k]); const need2=new Set();
   const rest=allIdx.filter(k=>matched[k]&&indivNeed[k]);
   await p.reload(); await p.waitForTimeout(1500); await p.locator('#presentation button',{hasText:'편집'}).first().click(); await p.waitForTimeout(1200); await p.addStyleTag({content:'.rv-guide{display:none!important}'}); await p.keyboard.press('Escape');
