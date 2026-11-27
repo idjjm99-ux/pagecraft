@@ -35,7 +35,7 @@ const SET=`(([ks,imp])=>{for(const k of ks){const d=__imp.decls[k];for(const [p,
   for(const pg of pages) states.push(async()=>{await p.evaluate(i=>Revival.go(i),pg);});
   const kinds=await p.evaluate(()=>{const m={};for(const pg of Revival.getProject().pages)for(const o of pg.objects){const k=o.kind+'/'+(o.role||'');if(!m[k]&&!o.unplaced)m[k]=[pg.id,o.id];}return Object.values(m)});
   for(const [pg,o] of kinds) for(const t of ['object','layers','page']) states.push(async()=>{await p.evaluate(([a,c])=>{Revival.go(a);Revival.selectOne(c)},[pg,o]); await p.click(`#inspectorTabs [data-inspector-tab=${t}]`).catch(()=>{}); });
-  states.push(async()=>{await p.click('#inspectorTabs [data-inspector-tab=object]').catch(()=>{}); await p.hover('#inspectorTabs [data-inspector-tab=page]'); });
+  states.push(async()=>{await p.click('#inspectorTabs [data-inspector-tab=object]').catch(()=>{}); await p.hover('#inspectorTabs [data-inspector-tab=page]',{timeout:1500}).catch(()=>{}); });
   for(const acc of ['chart','table','media','flow','toc','timeline','cycle']) states.push(async()=>{ await p.hover(`#inspector details[data-accordion="${acc}"]>summary`,{timeout:500}).catch(()=>{}); });
   states.push(async()=>{await p.hover('#inspector details.accordion>summary').catch(()=>{}); });
   states.push(async()=>{ await p.mouse.move(5,5); await p.keyboard.press('Escape'); await p.click('[data-action=addPage]'); await p.waitForTimeout(800);
