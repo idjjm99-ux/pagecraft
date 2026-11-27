@@ -212,7 +212,7 @@ const pcVer = async (p, file) => { const bv = await p.evaluate(() => Revival.bui
   await pop.waitForTimeout(1300); let t1 = await pop.textContent('#pvElapsed'); ok(/^\d\d:\d\d$/.test(t1) && t1 !== '00:00', '지난 시간 흐름', t1);
   await pop.click('#pvPause'); t1 = await pop.textContent('#pvElapsed'); await pop.waitForTimeout(1300); ok(await pop.textContent('#pvElapsed') === t1 && await pop.textContent('#pvPause') === '계속', '멈춤 → 시간 멈춤');
   await pop.click('#pvReset'); ok(await pop.textContent('#pvElapsed') === '00:00', '0부터');
-  await pop.click('#pvPause'); await pop.waitForTimeout(1200); ok(await pop.textContent('#pvElapsed') !== '00:00', '계속 → 다시 흐름');
+  await pop.click('#pvPause'); await pop.waitForFunction(() => document.getElementById('pvElapsed').textContent !== '00:00', null, { timeout: 3000 }).catch(() => {}); ok(await pop.textContent('#pvElapsed') !== '00:00', '계속 → 다시 흐름'); // v12.51: 0.5초 간격 갱신이라 1.2초 고정 대기는 약 40%만 통과 → 조건 대기
   ok(/\d/.test(await pop.textContent('#pvClock')), '지금 시각 표시');
   const f0 = await pop.evaluate(() => parseFloat(document.getElementById('pvNotes').style.fontSize)); await pop.click('#pvFontUp'); await pop.click('#pvFontUp');
   const f1 = await pop.evaluate(() => parseFloat(document.getElementById('pvNotes').style.fontSize)); ok(f1 === f0 + 4, '메모 글씨 크게', `${f0}→${f1}`);
